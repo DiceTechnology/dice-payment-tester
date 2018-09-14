@@ -21,18 +21,14 @@ public class MyStripeTest {
 
     private StripePaymentProvider paymentProvider;
 
+    // TODO : use wiremock to simulate stripe api response ...
+
     @Before
     public void setUp() {
     }
 
     @Test
-    public void sfsdf() {
-        System.out.println(paymentProvider);
-
-    }
-
-    @Test
-    public void sdfasdfsdf() {
-        System.out.println("hello world");
+    public void dummy() {
+        System.out.println("to simulate stripe api response with wiremock");
     }
 }

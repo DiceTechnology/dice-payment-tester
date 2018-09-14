@@ -11,8 +11,6 @@
     <artifactId>dce-stripe-layer</artifactId>
     <packaging>jar</packaging>
 
-    <name>Stripe layer</name>
-
     <properties>
         <stripe.version>5.23.1</stripe.version>
         <guice.version>4.1.0</guice.version>
@@ -50,6 +48,19 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.0.9</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
