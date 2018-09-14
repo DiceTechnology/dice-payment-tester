@@ -18,7 +18,7 @@ public class PaypalAccountConfig {
         this(clientId, clientSecret, clientSignature, Optional.of(endpoint));
     }
 
-    private PaypalAccountConfig(String clientId, String clientSecret, String clientSignature, Optional<String> endpoint) {
+    public PaypalAccountConfig(String clientId, String clientSecret, String clientSignature, Optional<String> endpoint) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.clientSignature = clientSignature;

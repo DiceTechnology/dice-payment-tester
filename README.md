@@ -1,9 +1,9 @@
-# DiCE-Paytest
+# DiCE Payment Tester
 Payment Providers integration testing made easy.
 
-Dice-Paytest is a way of reaching out to the payment providers and through api calls that you will then be able to compare with what your application in test will return to you. It's no more than wrappers around those api calls to make an integratio n in your automation suite much easier.
+Dice Payment Tester is a way of reaching out to the payment providers and through api calls that you will then be able to compare with what your application in test will return to you. It's no more than wrappers around those api calls to make an integratio n in your automation suite much easier.
 
-Dice-Paytest has currently 2 integrations with:
+Dice Payment Tester has currently 2 integrations with:
 - Stripe 
 - Paypal.
 
@@ -14,6 +14,14 @@ It's only purpose is to aid on either automation tests or even manual testing by
 Clone the project to your local running environment.
 
 Compile into a jar file and all you have to do is import it on your own project.
+
+# Pre-requisites
+
+For Paypal testing a number of preconditions need to exist. These are:
+* A paypal sandbox account already need to exist
+* Paypal Billing Agreement needs to be created and accepted beforehand.
+
+If those conditions are met, you are good to go to start using Dice Payment Tester.
 
 ## Running the tests
 
