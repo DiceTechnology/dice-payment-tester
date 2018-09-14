@@ -1,4 +1,4 @@
-package technology.dice.payment.stripe.util;
+package technology.dice.dicepay.stripe.util;
 
 import technology.dice.payment.stripe.model.Customer;
 import technology.dice.payment.stripe.model.StripeCardToken;

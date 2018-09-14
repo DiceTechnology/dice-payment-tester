@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import technology.dice.payment.stripe.exception.DiceStripeException;
 import technology.dice.payment.stripe.model.StripeCardDefinition;
 import technology.dice.payment.stripe.model.StripeCardToken;
-import technology.dice.payment.stripe.util.ModelConvertor;
+import technology.dice.dicepay.stripe.util.ModelConvertor;
 
 public class TokenApiLayer {
     private static final Logger LOG = LoggerFactory.getLogger(TokenApiLayer.class);
