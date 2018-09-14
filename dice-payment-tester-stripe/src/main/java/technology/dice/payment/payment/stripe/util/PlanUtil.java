@@ -1,4 +1,4 @@
-package technology.dice.payment.stripe.util;
+package technology.dice.payment.payment.stripe.util;
 
 import technology.dice.payment.stripe.model.StripeCustomerId;
 

@@ -1,6 +1,7 @@
-package technology.dice.payment.stripe.service;
+package technology.dice.payment.payment.stripe.service;
 
-import technology.dice.payment.stripe.model.SubscriptionType;
+
+import technology.dice.payment.payment.stripe.model.SubscriptionType;
 
 public class SubscriptionInterval {
     private final SubscriptionType subscriptionType;

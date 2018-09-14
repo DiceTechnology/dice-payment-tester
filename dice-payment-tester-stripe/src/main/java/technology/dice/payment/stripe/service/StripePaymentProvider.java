@@ -1,6 +1,8 @@
 package technology.dice.payment.stripe.service;
 
 import com.stripe.net.RequestOptions;
+import technology.dice.payment.payment.stripe.model.StripeSubscriptionId;
+import technology.dice.payment.payment.stripe.model.SubscriptionDefinition;
 import technology.dice.payment.stripe.exception.DiceStripeException;
 import technology.dice.payment.stripe.model.*;
 

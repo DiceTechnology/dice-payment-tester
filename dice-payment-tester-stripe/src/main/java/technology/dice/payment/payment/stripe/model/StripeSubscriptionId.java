@@ -1,9 +1,9 @@
-package technology.dice.payment.stripe.model;
+package technology.dice.payment.payment.stripe.model;
 
-public class PlanId {
+public class StripeSubscriptionId {
     private final String id;
 
-    public PlanId(String id) {
+    public StripeSubscriptionId(String id) {
         this.id = id;
     }
 

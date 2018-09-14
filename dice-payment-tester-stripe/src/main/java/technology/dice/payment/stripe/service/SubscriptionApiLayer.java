@@ -5,8 +5,10 @@ import com.google.common.collect.ImmutableMap;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Plan;
 import com.stripe.net.RequestOptions;
+import technology.dice.payment.payment.stripe.model.*;
+import technology.dice.payment.payment.stripe.service.SubscriptionInterval;
 import technology.dice.payment.stripe.exception.DiceStripeException;
-import technology.dice.payment.stripe.model.*;
+import technology.dice.payment.stripe.model.StripeCustomerId;
 import technology.dice.payment.stripe.util.ModelConvertor;
 
 import javax.inject.Singleton;

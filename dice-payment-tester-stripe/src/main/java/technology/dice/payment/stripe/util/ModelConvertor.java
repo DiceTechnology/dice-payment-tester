@@ -1,5 +1,6 @@
 package technology.dice.payment.stripe.util;
 
+import technology.dice.payment.payment.stripe.model.StripeSubscriptionId;
 import technology.dice.payment.stripe.model.*;
 
 import java.time.Instant;

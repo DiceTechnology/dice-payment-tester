@@ -1,6 +1,7 @@
-package technology.dice.payment.stripe.model;
+package technology.dice.payment.payment.stripe.model;
 
 import com.google.common.collect.ImmutableMap;
+import technology.dice.payment.stripe.model.ChargeablePrice;
 
 import java.util.Map;
 import java.util.Optional;

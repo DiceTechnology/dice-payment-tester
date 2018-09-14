@@ -1,4 +1,4 @@
-package technology.dice.payment.stripe.model;
+package technology.dice.payment.payment.stripe.model;
 
 import java.time.Period;
 import java.util.Optional;
