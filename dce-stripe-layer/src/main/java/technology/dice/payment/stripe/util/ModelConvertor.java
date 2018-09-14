@@ -1,7 +1,6 @@
 package technology.dice.payment.stripe.util;
 
-import technology.dice.payment.stripe.model.Customer;
-import technology.dice.payment.stripe.model.StripeCardToken;
+import technology.dice.payment.stripe.model.*;
 
 public class ModelConvertor {
 
@@ -27,4 +26,15 @@ public class ModelConvertor {
         return b != null && b.booleanValue();
     }
 
+    public static Product convert(com.stripe.model.Product stripeProduct) {
+        return new Product(new ProductId(stripeProduct.getId()));
+    }
+
+    public static SkuId convert(com.stripe.model.SKU stripeSku) {
+        return new SkuId(stripeSku.getId());
+    }
+
+    public static String convert(com.stripe.model.Order stripeOrder) {
+        return stripeOrder.getId();
+    }
 }

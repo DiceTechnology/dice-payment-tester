@@ -1,6 +1,7 @@
 package technology.dice.payment.stripe.service;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.stripe.exception.StripeException;
 import com.stripe.net.RequestOptions;
 import technology.dice.payment.stripe.exception.DiceStripeException;
@@ -45,6 +46,36 @@ public class CustomerApiLayer {
             return ModelConvertor.convert(com.stripe.model.Customer.create(customerParams, options));
         } catch (StripeException e) {
             throw new DiceStripeException("error creating customer", e);
+        }
+    }
+
+    public Customer bindCardToken(RequestOptions options, StripeCustomerId stripeCustomerId, StripeCardToken stripeCardToken) throws DiceStripeException {
+//        StripeCustomerId customerId = customerDefinition.getCustomerId();
+//        Map<String, Object> customerParams = new HashMap<>();
+
+        try {
+            com.stripe.model.Customer customer = com.stripe.model.Customer.retrieve(stripeCustomerId.getId(), options);
+
+            if (customer == null) {
+                throw new DiceStripeException(String.format("customer '%s' is not found", stripeCustomerId.getId()));
+            }
+
+            // description
+//            customerDefinition.getDescription().ifPresent(d -> customerParams.put("description", d));
+//
+
+//            customerDefinition.getCardToken().ifPresent(ct -> customerParams.put("source", ct.getToken()));
+
+            // meta-data -- null means unsetting every meta-data value
+//            customerParams.put("metadata", customerDefinition.getMetaData());
+
+//            customerDefinition.getEmail()
+//                    .filter(e -> StringUtils.isNoneBlank(e))
+//                    .ifPresent(e -> customerParams.put("email", e));
+
+            return ModelConvertor.convert(customer.update(ImmutableMap.of("source", stripeCardToken.getToken()), options));
+        } catch (StripeException e) {
+            throw new DiceStripeException(String.format("error bind card token to customer '%s'", stripeCustomerId.getId()), e);
         }
     }
 
