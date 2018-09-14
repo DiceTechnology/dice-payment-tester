@@ -7,9 +7,11 @@ import technology.dice.dicepaypal.api.PaypalResponse;
 import technology.dice.dicepaypal.api.exception.PaypalException;
 import technology.dice.dicepaypal.config.PaypalAccountConfig;
 import technology.dice.dicepaypal.merchant.PaypalMerchantAccountWrapper;
+import technology.dice.dicepaypal.util.ConfigUtil;
 import urn.ebay.apis.eBLBaseComponents.AckCodeType;
 import urn.ebay.apis.eBLBaseComponents.CurrencyCodeType;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
@@ -20,8 +22,8 @@ public class PaypalTests {
     private PaypalMerchantAccountWrapper paypalMerchantAccountWrapper;
 
     @Before
-    public void setUp() {
-        PaypalAccountConfig paypalAccountConfig = new PaypalAccountConfig("", "", "");
+    public void setUp() throws IOException {
+        PaypalAccountConfig paypalAccountConfig = ConfigUtil.readPaypalAccountConfig("config.properties");
         this.paypalMerchantAccountWrapper = new PaypalMerchantAccountWrapper(paypalAccountConfig);
     }
 
