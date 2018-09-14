@@ -1,5 +1,6 @@
-*.class
 target/
 .idea/
-*.iml
 .DS_Store
+*.iml
+*.class
+*.log

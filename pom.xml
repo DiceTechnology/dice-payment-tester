@@ -9,9 +9,103 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <guava.version>21.0</guava.version>
+    </properties>
+
+    <scm>
+        <connection>scm:git:git@github.com:DiceTechnology/dice-pay.git</connection>
+        <url>scm:git:git@github.com:DiceTechnology/dice-pay.git</url>
+        <developerConnection>scm:git:git@github.com:DiceTechnology/dice-pay.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <modules>
         <module>dice-pay-tests</module>
         <module>dice-pay-paypal</module>
+        <module>dce-stripe-layer</module>
     </modules>
 
+    <dependencies>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.6.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                <!--<version>2.19.1</version>-->
+                <!--<configuration>-->
+                    <!--<includes>-->
+                        <!--<include>**/*Test.java</include>-->
+                        <!--<include>**/Test*.java</include>-->
+                    <!--</includes>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+
+            <!--<plugin>-->
+                <!--<artifactId>maven-source-plugin</artifactId>-->
+                <!--<version>2.4</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>attach-sources</id>-->
+                        <!--<goals>-->
+                            <!--<goal>jar-no-fork</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
+        <!--</plugins>-->
+
+        <!-- This wagon require the AWS credentials on the following env variables: AWS_ACCESS_KEY_ID + AWS_SECRET_KEY -->
+        <!-- Alternatively, they can be put in ~/.m2/settings.xml creating a server section for each repo-->
+        <extensions>
+            <extension>
+                <groupId>org.springframework.build</groupId>
+                <artifactId>aws-maven</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <!--NB : change this ...-->
+    <repositories>
+        <repository>
+            <id>exchange-external-repo</id>
+            <url>s3://dge-artifacts/ext</url>
+        </repository>
+        <repository>
+            <id>dge-repo</id>
+            <name>DGE dependencies</name>
+            <url>s3://dge-artifacts/</url>
+        </repository>
+    </repositories>
+
+    <!--NB : change this ...-->
+    <!-- do we need to use suffix url with ${repository.environment.id} ??? -->
+    <distributionManagement>
+        <repository>
+            <id>s3.release</id>
+            <url>s3://dge-artifacts</url>
+        </repository>
+        <snapshotRepository>
+            <id>s3.snapshot</id>
+            <url>s3://dge-artifacts</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
