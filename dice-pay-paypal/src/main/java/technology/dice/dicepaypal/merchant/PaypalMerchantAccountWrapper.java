@@ -45,7 +45,7 @@ public class PaypalMerchantAccountWrapper {
 
         try {
             final DoReferenceTransactionResponseType response = createApiService().doReferenceTransaction(doReferenceTransactionReq);
-            return new PaypalResponse<>(response.getAck(), response.getDoReferenceTransactionResponseDetails().getTransactionID(), response.getErrors());
+            return new PaypalResponse<>(response.getAck(), response.getDoReferenceTransactionResponseDetails().getPaymentInfo().getTransactionID(), response.getErrors());
         } catch (Exception e) {
             throw new PaypalException("Error executing payment", e);
         }
