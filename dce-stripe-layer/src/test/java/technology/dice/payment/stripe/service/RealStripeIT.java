@@ -14,6 +14,8 @@ import technology.dice.payment.stripe.model.*;
 import java.io.IOException;
 import java.time.YearMonth;
 import java.util.Currency;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static technology.dice.payment.stripe.util.ConfigUtil.readConfig;
@@ -96,10 +98,24 @@ public class RealStripeIT {
 
         String s = stripePaymentProvider.payOrderByCardToken(stripeCustomerId, stripeCardToken, orderDefinition, idempotentKey);
         System.out.println(s);
-
-//        paymentCharges = stripePaymentProvider.getPaymentDetails(stripeCustomer);
-
-
     }
 
+    @Test
+    public void listCharges() {
+        String customerId = "harrison.tsun-771@img.com";
+        StripeCustomerId stripeCustomerId = new StripeCustomerId(customerId);
+
+        List<StripeCharge> stripeCharges = stripePaymentProvider.listCharges(stripeCustomerId);
+        LOG.info("stripe charges => {}", stripeCharges);
+    }
+
+    @Test
+    public void refundCharge() {
+        String customerId = "harrison.tsun-771@img.com";
+        StripeCustomerId stripeCustomerId = new StripeCustomerId(customerId);
+        StripeChargeId stripeChargeId = new StripeChargeId("ch_1DAIhbDKOJr7TNDLADaqHxIC");      // at the moment, look it up from stripe dashboard ...
+
+        StripeRefundId stripeRefundId = stripePaymentProvider.refund(stripeCustomerId, stripeChargeId, Optional.empty(), RefundReason.REQUESTED_BY_CUSTOMER, "test refund");
+        LOG.info("stripeRefundId => {}", stripeChargeId);
+    }
 }
