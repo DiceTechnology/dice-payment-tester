@@ -23,6 +23,8 @@
     </scm>
 
     <modules>
+        <module>dice-pay-tests</module>
+        <module>dice-pay-paypal</module>
         <module>dce-stripe-layer</module>
     </modules>
 
