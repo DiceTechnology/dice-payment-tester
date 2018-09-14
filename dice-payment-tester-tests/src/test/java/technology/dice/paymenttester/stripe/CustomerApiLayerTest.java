@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.stripe.model.Customer;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import technology.dice.payment.stripe.model.Customer;
 import technology.dice.payment.stripe.model.CustomerDefinition;
 import technology.dice.payment.stripe.model.StripeConfig;
 import technology.dice.payment.stripe.service.StripePaymentProvider;
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static technology.dice.payment.stripe.service.util.ConfigUtil.readConfig;
+import static technology.dice.paymenttester.stripe.util.ConfigUtil.readConfig;
 
 
 public class CustomerApiLayerTest {
