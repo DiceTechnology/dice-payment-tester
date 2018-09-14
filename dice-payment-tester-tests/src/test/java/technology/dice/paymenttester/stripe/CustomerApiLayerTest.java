@@ -4,13 +4,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import com.stripe.model.Customer;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.apache.commons.lang3.RandomStringUtils;
-
+import technology.dice.payment.stripe.model.CustomerDefinition;
+import technology.dice.payment.stripe.model.StripeConfig;
+import technology.dice.payment.stripe.service.StripePaymentProvider;
 
 import java.io.IOException;
 
