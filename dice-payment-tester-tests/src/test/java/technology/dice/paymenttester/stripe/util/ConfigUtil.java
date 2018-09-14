@@ -1,4 +1,4 @@
-package technology.dice.payment.stripe.util;
+package technology.dice.paymenttester.stripe.util;
 
 import technology.dice.payment.stripe.model.*;
 

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import technology.dice.payment.payment.stripe.model.*;
 import technology.dice.payment.stripe.model.*;
 
 import java.io.IOException;
@@ -19,9 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static technology.dice.payment.payment.stripe.util.PlanUtil.generatePlanId;
+import static technology.dice.payment.payment.stripe.util.PlanUtil.generatePlanName;
 import static technology.dice.payment.stripe.util.ConfigUtil.readConfig;
-import static technology.dice.payment.stripe.util.PlanUtil.generatePlanId;
-import static technology.dice.payment.stripe.util.PlanUtil.generatePlanName;
 
 public class RealStripeIT {
     private static final Logger LOG = LoggerFactory.getLogger(RealStripeIT.class);
