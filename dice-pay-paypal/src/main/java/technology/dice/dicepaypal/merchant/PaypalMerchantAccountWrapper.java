@@ -1,23 +1,25 @@
 package technology.dice.dicepaypal.merchant;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import technology.dice.dicepaypal.api.PaypalMoney;
 import technology.dice.dicepaypal.api.PaypalResponse;
 import technology.dice.dicepaypal.api.exception.PaypalException;
 import technology.dice.dicepaypal.config.PaypalAccountConfig;
-import urn.ebay.api.PayPalAPI.DoReferenceTransactionReq;
-import urn.ebay.api.PayPalAPI.DoReferenceTransactionRequestType;
-import urn.ebay.api.PayPalAPI.DoReferenceTransactionResponseType;
-import urn.ebay.api.PayPalAPI.PayPalAPIInterfaceServiceService;
+import technology.dice.dicepaypal.util.ModelMapperUtil;
+import urn.ebay.api.PayPalAPI.*;
 import urn.ebay.apis.CoreComponentTypes.BasicAmountType;
-import urn.ebay.apis.eBLBaseComponents.DoReferenceTransactionRequestDetailsType;
-import urn.ebay.apis.eBLBaseComponents.PaymentActionCodeType;
-import urn.ebay.apis.eBLBaseComponents.PaymentDetailsType;
+import urn.ebay.apis.eBLBaseComponents.*;
+
 
 import java.util.Map;
 import java.util.Optional;
 
 public class PaypalMerchantAccountWrapper {
+
+    private static final String RETURN_URL = "https://localhost/return";
+    private static final String CANCEL_URL = "https://localhost/cancel";
 
     private final PaypalAccountConfig paypalAccountConfig;
 
@@ -48,6 +50,72 @@ public class PaypalMerchantAccountWrapper {
             return new PaypalResponse<>(response.getAck(), response.getDoReferenceTransactionResponseDetails().getPaymentInfo().getTransactionID(), response.getErrors());
         } catch (Exception e) {
             throw new PaypalException("Error executing payment", e);
+        }
+    }
+
+    public PaypalResponse<String> refundPayment(String transactionId, Optional<PaypalMoney> refundValue, Optional<String> idempotentKey) throws PaypalException {
+        final RefundTransactionRequestType requestType = new RefundTransactionRequestType();
+        requestType.setTransactionID(transactionId);
+        idempotentKey.ifPresent(ik -> requestType.setMsgSubID(ik));
+
+        requestType.setRefundType(refundValue.map(dceMoney -> RefundType.PARTIAL).orElse(RefundType.FULL));
+        refundValue.ifPresent(money -> requestType.setAmount(money.getBasicAmountType()));
+
+        final RefundTransactionReq request = new RefundTransactionReq();
+        request.setRefundTransactionRequest(requestType);
+
+        try {
+            final RefundTransactionResponseType response = createApiService().refundTransaction(request);
+            return new PaypalResponse<>(response.getAck(), response.getRefundTransactionID(), response.getErrors());
+        } catch (Exception e) {
+            throw new PaypalException("Error refund payment", e);
+        }
+    }
+
+    public PaypalResponse<String> createAuthorizationToken() throws PaypalException {
+
+        // Request type
+        final SetExpressCheckoutRequestType requestType = new SetExpressCheckoutRequestType();
+        final SetExpressCheckoutRequestDetailsType requestDetailsType = new SetExpressCheckoutRequestDetailsType();
+        requestType.setSetExpressCheckoutRequestDetails(requestDetailsType);
+
+        // Request specification
+        requestDetailsType.setReturnURL(RETURN_URL);
+        requestDetailsType.setCancelURL(CANCEL_URL);
+        requestDetailsType.setBillingAgreementDetails(ImmutableList.of(new BillingAgreementDetailsType(BillingCodeType.MERCHANTINITIATEDBILLING)));
+
+        // PaymentDetailsType
+        final PaymentDetailsType paymentDetailsType = new PaymentDetailsType();
+        paymentDetailsType.setPaymentAction(PaymentActionCodeType.SALE);
+        requestDetailsType.setPaymentDetails(ImmutableList.of(paymentDetailsType));
+
+
+        final SetExpressCheckoutReq request = new SetExpressCheckoutReq();
+        request.setSetExpressCheckoutRequest(requestType);
+
+        try {
+            final SetExpressCheckoutResponseType response = createApiService().setExpressCheckout(request);
+            return new PaypalResponse<>(response.getAck(), response.getToken(), response.getErrors());
+        } catch (Exception e) {
+            throw new PaypalException("Error creating authorization token", e);
+        }
+    }
+
+    public PaypalResponse<String> createBillingAgreement(String authorizationToken) throws PaypalException {
+        // Request type
+        final CreateBillingAgreementRequestType requestType = new CreateBillingAgreementRequestType();
+
+        // Request specification
+        requestType.setToken(authorizationToken);
+
+        final CreateBillingAgreementReq createBillingAgreementReq = new CreateBillingAgreementReq();
+        createBillingAgreementReq.setCreateBillingAgreementRequest(requestType);
+
+        try {
+            final CreateBillingAgreementResponseType response = createApiService().createBillingAgreement(createBillingAgreementReq);
+            return new PaypalResponse<>(response.getAck(), response.getBillingAgreementID(), response.getErrors());
+        } catch (Exception e) {
+            throw new PaypalException("Error creating billing agreement", e);
         }
     }
 
