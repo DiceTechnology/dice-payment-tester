@@ -12,5 +12,39 @@
 
     <artifactId>dice-pay-paypal</artifactId>
 
-    
+    <properties>
+        <java.version>1.8</java.version>
+        <paypal.sdk.version>2.15.122</paypal.sdk.version>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>merchantsdk</artifactId>
+            <version>${paypal.sdk.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.6.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 </project>
