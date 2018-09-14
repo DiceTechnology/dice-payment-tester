@@ -1,6 +1,10 @@
-package technology.dice.payment.stripe.util;
+package technology.dice.dicepay.stripe.util;
 
 import technology.dice.payment.stripe.model.*;
+
+import java.time.Instant;
+
+import static technology.dice.payment.stripe.util.CurrencyUtil.toCurrency;
 
 public class ModelConvertor {
 
@@ -36,5 +40,19 @@ public class ModelConvertor {
 
     public static String convert(com.stripe.model.Order stripeOrder) {
         return stripeOrder.getId();
+    }
+
+    public static StripeRefundId convert(com.stripe.model.Refund stripeRefund) {
+        return new StripeRefundId(stripeRefund.getId());
+    }
+
+    public static StripeCharge convert(com.stripe.model.Charge stripeCharge) {
+        StripeCustomerId stripeCustomerId = new StripeCustomerId(stripeCharge.getCustomer());
+        StripeChargeId stripeChargeId = new StripeChargeId(stripeCharge.getId());
+
+        return new StripeCharge(stripeCustomerId, stripeChargeId,
+                new ChargeablePrice(stripeCharge.getAmount(), toCurrency(stripeCharge.getCurrency())),
+                stripeCharge.getPaid(),
+                Instant.ofEpochSecond(stripeCharge.getCreated()));
     }
 }

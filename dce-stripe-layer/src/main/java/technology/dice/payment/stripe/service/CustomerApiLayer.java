@@ -9,7 +9,7 @@ import technology.dice.payment.stripe.model.Customer;
 import technology.dice.payment.stripe.model.CustomerDefinition;
 import technology.dice.payment.stripe.model.StripeCardToken;
 import technology.dice.payment.stripe.model.StripeCustomerId;
-import technology.dice.payment.stripe.util.ModelConvertor;
+import technology.dice.dicepay.stripe.util.ModelConvertor;
 
 import javax.inject.Singleton;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import static technology.dice.payment.stripe.util.CollectionUtil.isNotEmpty;
+import static technology.dice.dicepay.stripe.util.CollectionUtil.isNotEmpty;
 
 @Singleton
 public class CustomerApiLayer {

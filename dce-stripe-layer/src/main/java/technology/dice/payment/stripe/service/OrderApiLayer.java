@@ -3,12 +3,12 @@ package technology.dice.payment.stripe.service;
 import com.google.common.collect.ImmutableMap;
 import com.stripe.exception.StripeException;
 import com.stripe.net.RequestOptions;
+import technology.dice.dicepay.stripe.util.ModelConvertor;
 import technology.dice.payment.stripe.exception.DiceStripeException;
 import technology.dice.payment.stripe.model.OrderDefinition;
 import technology.dice.payment.stripe.model.OrderItem;
 import technology.dice.payment.stripe.model.StripeCardToken;
 import technology.dice.payment.stripe.model.StripeCustomerId;
-import technology.dice.payment.stripe.util.ModelConvertor;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static technology.dice.payment.stripe.util.CollectionUtil.isNotEmpty;
+import static technology.dice.dicepay.stripe.util.CollectionUtil.isNotEmpty;
 
 @Singleton
 public class OrderApiLayer {

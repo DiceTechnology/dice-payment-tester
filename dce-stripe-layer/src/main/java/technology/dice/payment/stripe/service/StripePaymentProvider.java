@@ -5,6 +5,7 @@ import technology.dice.payment.stripe.exception.DiceStripeException;
 import technology.dice.payment.stripe.model.*;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Optional;
 
 public class StripePaymentProvider {
@@ -20,13 +21,17 @@ public class StripePaymentProvider {
     private final OrderApiLayer orderApiLayer;
     private final ProductApiLayer productApiLayer;
     private final SkuApiLayer skuApiLayer;
+    private final RefundApiLayer refundApiLayer;
+    private final DisputeApiLayer disputeApiLayer;
+    private final ChargeApiLayer chargeApiLayer;
 
     @Inject
     public StripePaymentProvider(StripeConfig config,
                                  CustomerApiLayer customerApiLayer,
                                  TokenApiLayer tokenApiLayer, CardApiLayer cardApiLayer,
                                  SubscriptionApiLayer subscriptionApiLayer, OrderApiLayer orderApiLayer,
-                                 ProductApiLayer productApiLayer, SkuApiLayer skuApiLayer) {
+                                 ProductApiLayer productApiLayer, SkuApiLayer skuApiLayer,
+                                 RefundApiLayer refundApiLayer, DisputeApiLayer disputeApiLayer, ChargeApiLayer chargeApiLayer) {
         this.config = config;
         this.customerApiLayer = customerApiLayer;
         this.tokenApiLayer = tokenApiLayer;
@@ -36,6 +41,9 @@ public class StripePaymentProvider {
         this.orderApiLayer = orderApiLayer;
         this.productApiLayer = productApiLayer;
         this.skuApiLayer = skuApiLayer;
+        this.refundApiLayer = refundApiLayer;
+        this.disputeApiLayer = disputeApiLayer;
+        this.chargeApiLayer = chargeApiLayer;
     }
 
     public StripeMode getMode() {
@@ -70,11 +78,23 @@ public class StripePaymentProvider {
     public String payOrderByCardId(StripeCustomerId stripeCustomerId, StripeCardToken stripeCardToken, OrderDefinition orderDefinition, String idempotentKey) throws DiceStripeException {
         return orderApiLayer.payOrderByCardToken(requestOptions, stripeCustomerId, stripeCardToken, orderDefinition, idempotentKey);
     }
-    // pay -- order / subscription
+    // pay -- subscription
 
     // cancel
 
-    // refund
+    public StripeRefundId refund(StripeCustomerId stripeCustomerId,
+                                 StripeChargeId stripeChargeId,
+                                 Optional<ChargeablePrice> refundAmount,
+                                 RefundReason refundReason,
+                                 String comment) throws DiceStripeException {
+        return refundApiLayer.refund(requestOptions, stripeCustomerId, stripeChargeId, refundAmount, refundReason, comment);
+
+    }
+
+    public List<StripeCharge> listCharges(StripeCustomerId stripeCustomerId) throws DiceStripeException {
+        return chargeApiLayer.listCharges(requestOptions, stripeCustomerId);
+
+    }
 
     // dispute
 
@@ -82,6 +102,5 @@ public class StripePaymentProvider {
 
     // end subscription -- fake it ...
 
-    // look at what we have for customer ...
 
 }

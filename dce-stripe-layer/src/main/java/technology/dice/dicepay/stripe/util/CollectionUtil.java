@@ -1,4 +1,4 @@
-package technology.dice.payment.stripe.util;
+package technology.dice.dicepay.stripe.util;
 
 import java.util.List;
 import java.util.Map;

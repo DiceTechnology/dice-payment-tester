@@ -1,4 +1,4 @@
-package technology.dice.payment.stripe.util;
+package technology.dice.dicepay.stripe.util;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
