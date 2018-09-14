@@ -70,15 +70,13 @@ public class StripePaymentProvider {
         return skuApiLayer.createSku(requestOptions, skuDefinition);
     }
 
-    public String payOrderByCardToken(StripeCustomerId stripeCustomerId, StripeCardToken stripeCardToken, OrderDefinition orderDefinition, String idempotentKey) throws DiceStripeException {
-        return orderApiLayer.payOrderByCardToken(requestOptions, stripeCustomerId, stripeCardToken, orderDefinition, idempotentKey);
+    public String payOrder(StripeCustomerId stripeCustomerId, OrderDefinition orderDefinition, String idempotentKey) throws DiceStripeException {
+        return orderApiLayer.payOrder(requestOptions, stripeCustomerId, orderDefinition, idempotentKey);
     }
 
-    // TODO
-    public String payOrderByCardId(StripeCustomerId stripeCustomerId, StripeCardToken stripeCardToken, OrderDefinition orderDefinition, String idempotentKey) throws DiceStripeException {
-        return orderApiLayer.payOrderByCardToken(requestOptions, stripeCustomerId, stripeCardToken, orderDefinition, idempotentKey);
+    public StripeSubscriptionId paySubscription(StripeCustomerId stripeCustomerId, SubscriptionDefinition subscriptionDefinition, String idempotentKey) throws DiceStripeException {
+        return subscriptionApiLayer.paySubscription(requestOptions, stripeCustomerId, subscriptionDefinition, idempotentKey);
     }
-    // pay -- subscription
 
     // cancel
 
@@ -96,7 +94,7 @@ public class StripePaymentProvider {
 
     }
 
-    // dispute
+    // dispute -- hard to force a win / loss in test mode
 
     // fake renewal
 

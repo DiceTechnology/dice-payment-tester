@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import technology.dice.payment.stripe.model.*;
 
 import java.io.IOException;
+import java.time.Period;
 import java.time.YearMonth;
 import java.util.Currency;
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static technology.dice.payment.stripe.util.ConfigUtil.readConfig;
+import static technology.dice.payment.stripe.util.PlanUtil.generatePlanId;
+import static technology.dice.payment.stripe.util.PlanUtil.generatePlanName;
 
 public class RealStripeIT {
     private static final Logger LOG = LoggerFactory.getLogger(RealStripeIT.class);
@@ -91,12 +94,12 @@ public class RealStripeIT {
 
         StripeCustomerId stripeCustomerId = new StripeCustomerId(customerId);
         StripeCardToken stripeCardToken = new StripeCardToken("tok_visa");
-        OrderDefinition orderDefinition = new OrderDefinition(customerId, GBP, ImmutableList.of(new OrderItem(productId,skuId.getId())));
+        OrderDefinition orderDefinition = new OrderDefinition(customerId, GBP, ImmutableList.of(new OrderItem(productId, skuId.getId())));
         String idempotentKey = UUID.randomUUID().toString();
 
         stripePaymentProvider.bindCardToken(stripeCustomerId, stripeCardToken);
 
-        String s = stripePaymentProvider.payOrderByCardToken(stripeCustomerId, stripeCardToken, orderDefinition, idempotentKey);
+        String s = stripePaymentProvider.payOrder(stripeCustomerId, orderDefinition, idempotentKey);
         System.out.println(s);
     }
 
@@ -116,6 +119,30 @@ public class RealStripeIT {
         StripeChargeId stripeChargeId = new StripeChargeId("ch_1DAIhbDKOJr7TNDLADaqHxIC");      // at the moment, look it up from stripe dashboard ...
 
         StripeRefundId stripeRefundId = stripePaymentProvider.refund(stripeCustomerId, stripeChargeId, Optional.empty(), RefundReason.REQUESTED_BY_CUSTOMER, "test refund");
-        LOG.info("stripeRefundId => {}", stripeChargeId);
+        LOG.info("stripeRefundId => {}", stripeRefundId);
+    }
+
+    @Test
+    public void makeSubscriptionPayment() {
+        String customerId = "harrison.tsun-771@img.com";
+
+        StripeCustomerId stripeCustomerId = new StripeCustomerId(customerId);
+        StripeCardToken stripeCardToken = new StripeCardToken("tok_visa");
+
+        PlanId planId = new PlanId(generatePlanId(stripeCustomerId));       // NB : this need to be unique
+        String planName = generatePlanName(planId.getId());
+        Currency currency = GBP;
+
+        ChargeablePrice price = new ChargeablePrice(12345, currency);
+        SubscriptionSetting subscriptionSetting = new SubscriptionSetting(SubscriptionType.DAILY, Period.ofDays(1), 1);
+        PlanDefinition planDefinition = new PlanDefinition(planId, planName, "test monthly", price, subscriptionSetting);
+        SubscriptionDefinition subscriptionDefinition = new SubscriptionDefinition(currency, "monthly pass", planDefinition);
+
+        String idempotentKey = UUID.randomUUID().toString();
+
+        stripePaymentProvider.bindCardToken(stripeCustomerId, stripeCardToken);
+
+        StripeSubscriptionId stripeSubscriptionId = stripePaymentProvider.paySubscription(stripeCustomerId, subscriptionDefinition, idempotentKey);
+        LOG.info("stripeSubscriptionId => {}", stripeSubscriptionId);
     }
 }

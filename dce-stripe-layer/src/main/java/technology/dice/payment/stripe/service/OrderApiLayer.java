@@ -6,7 +6,6 @@ import com.stripe.net.RequestOptions;
 import technology.dice.payment.stripe.exception.DiceStripeException;
 import technology.dice.payment.stripe.model.OrderDefinition;
 import technology.dice.payment.stripe.model.OrderItem;
-import technology.dice.payment.stripe.model.StripeCardToken;
 import technology.dice.payment.stripe.model.StripeCustomerId;
 import technology.dice.payment.stripe.util.ModelConvertor;
 
@@ -21,8 +20,9 @@ import static technology.dice.payment.stripe.util.CollectionUtil.isNotEmpty;
 @Singleton
 public class OrderApiLayer {
 
-    public String payOrderByCardToken(RequestOptions options, StripeCustomerId stripeCustomerId, StripeCardToken stripeCardToken, OrderDefinition orderDefinition, String idempotentKey) throws DiceStripeException {
+    public String payOrder(RequestOptions options, StripeCustomerId stripeCustomerId, OrderDefinition orderDefinition, String idempotentKey) throws DiceStripeException {
         try {
+            // create order items
             ImmutableMap.Builder<String, Object> orderParams = ImmutableMap.builder();
 
             orderParams.put("customer", stripeCustomerId.getId());
@@ -43,6 +43,7 @@ public class OrderApiLayer {
             com.stripe.model.Order order = com.stripe.model.Order.create(orderParams.build(), options);
             String orderId = order.getId();
 
+            // pay order
             ImmutableMap.Builder<String, Object> payParams = ImmutableMap.builder();
 
             payParams.put("customer", stripeCustomerId.getId());        // we expect source to have been bound to customer first

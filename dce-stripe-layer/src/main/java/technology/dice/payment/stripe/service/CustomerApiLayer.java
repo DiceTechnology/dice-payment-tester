@@ -50,9 +50,6 @@ public class CustomerApiLayer {
     }
 
     public Customer bindCardToken(RequestOptions options, StripeCustomerId stripeCustomerId, StripeCardToken stripeCardToken) throws DiceStripeException {
-//        StripeCustomerId customerId = customerDefinition.getCustomerId();
-//        Map<String, Object> customerParams = new HashMap<>();
-
         try {
             com.stripe.model.Customer customer = com.stripe.model.Customer.retrieve(stripeCustomerId.getId(), options);
 
@@ -60,30 +57,9 @@ public class CustomerApiLayer {
                 throw new DiceStripeException(String.format("customer '%s' is not found", stripeCustomerId.getId()));
             }
 
-            // description
-//            customerDefinition.getDescription().ifPresent(d -> customerParams.put("description", d));
-//
-
-//            customerDefinition.getCardToken().ifPresent(ct -> customerParams.put("source", ct.getToken()));
-
-            // meta-data -- null means unsetting every meta-data value
-//            customerParams.put("metadata", customerDefinition.getMetaData());
-
-//            customerDefinition.getEmail()
-//                    .filter(e -> StringUtils.isNoneBlank(e))
-//                    .ifPresent(e -> customerParams.put("email", e));
-
             return ModelConvertor.convert(customer.update(ImmutableMap.of("source", stripeCardToken.getToken()), options));
         } catch (StripeException e) {
             throw new DiceStripeException(String.format("error bind card token to customer '%s'", stripeCustomerId.getId()), e);
         }
     }
-
-//    public Optional<Customer> getCustomer(RequestOptions options, StripeCustomerId customerId) throws DceStripeException {
-//        try {
-//            return Optional.ofNullable(convert(com.stripe.model.Customer.retrieve(customerId.getCustomerCode(), options)));
-//        } catch (StripeException e) {
-//            return Optional.empty();
-//        }
-//    }
 }

@@ -55,4 +55,8 @@ public class ModelConvertor {
                 stripeCharge.getPaid(),
                 Instant.ofEpochSecond(stripeCharge.getCreated()));
     }
+
+    public static StripeSubscriptionId convert(com.stripe.model.Subscription stripeSubscription) {
+        return new StripeSubscriptionId(stripeSubscription.getId());
+    }
 }

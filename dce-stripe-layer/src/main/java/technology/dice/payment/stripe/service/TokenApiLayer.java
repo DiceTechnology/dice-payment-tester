@@ -11,6 +11,9 @@ import technology.dice.payment.stripe.model.StripeCardDefinition;
 import technology.dice.payment.stripe.model.StripeCardToken;
 import technology.dice.payment.stripe.util.ModelConvertor;
 
+import javax.inject.Singleton;
+
+@Singleton
 public class TokenApiLayer {
     private static final Logger LOG = LoggerFactory.getLogger(TokenApiLayer.class);
 
