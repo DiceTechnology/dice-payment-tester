@@ -1,0 +1,4 @@
+clientId : your_paypal_client_id
+clientSecret : your_paypal_client_secret
+clientSignature : your_paypal_client_signature
+endpoint : custom_paypal_endpoint
