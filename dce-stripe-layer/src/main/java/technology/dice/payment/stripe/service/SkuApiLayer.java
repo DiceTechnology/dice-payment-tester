@@ -3,17 +3,17 @@ package technology.dice.payment.stripe.service;
 import com.google.common.collect.ImmutableMap;
 import com.stripe.exception.StripeException;
 import com.stripe.net.RequestOptions;
+import technology.dice.dicepay.stripe.util.ModelConvertor;
 import technology.dice.payment.stripe.exception.DiceStripeException;
 import technology.dice.payment.stripe.model.ChargeablePrice;
 import technology.dice.payment.stripe.model.SkuDefinition;
 import technology.dice.payment.stripe.model.SkuId;
-import technology.dice.payment.stripe.util.ModelConvertor;
 
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
-import static technology.dice.payment.stripe.util.CollectionUtil.isNotEmpty;
+import static technology.dice.dicepay.stripe.util.CollectionUtil.isNotEmpty;
 
 @Singleton
 public class SkuApiLayer {

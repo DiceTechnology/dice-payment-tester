@@ -3,15 +3,16 @@ package technology.dice.payment.stripe.service;
 import com.google.common.collect.ImmutableMap;
 import com.stripe.exception.StripeException;
 import com.stripe.net.RequestOptions;
+import technology.dice.dicepay.stripe.util.ModelConvertor;
 import technology.dice.payment.stripe.exception.DiceStripeException;
 import technology.dice.payment.stripe.model.Product;
 import technology.dice.payment.stripe.model.ProductDefinition;
-import technology.dice.payment.stripe.util.ModelConvertor;
 
 import javax.inject.Singleton;
 import java.util.Objects;
 
-import static technology.dice.payment.stripe.util.CollectionUtil.isNotEmpty;
+import static technology.dice.dicepay.stripe.util.CollectionUtil.isNotEmpty;
+
 
 @Singleton
 public class ProductApiLayer {
