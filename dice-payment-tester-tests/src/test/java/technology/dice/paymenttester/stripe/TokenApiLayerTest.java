@@ -6,10 +6,10 @@ import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import technology.dice.payment.stripe.model.StripeCardDefinition;
-import technology.dice.payment.stripe.model.StripeCardToken;
-import technology.dice.payment.stripe.model.StripeConfig;
-import technology.dice.payment.stripe.service.StripePaymentProvider;
+import technology.dice.paymenttester.stripe.model.StripeCardDefinition;
+import technology.dice.paymenttester.stripe.model.StripeCardToken;
+import technology.dice.paymenttester.stripe.model.StripeConfig;
+import technology.dice.paymenttester.stripe.service.StripePaymentProvider;
 import technology.dice.paymenttester.stripe.util.TokenUtil;
 
 import java.io.IOException;

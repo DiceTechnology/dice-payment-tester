@@ -7,10 +7,10 @@ import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import technology.dice.payment.stripe.model.Customer;
-import technology.dice.payment.stripe.model.CustomerDefinition;
-import technology.dice.payment.stripe.model.StripeConfig;
-import technology.dice.payment.stripe.service.StripePaymentProvider;
+import technology.dice.paymenttester.stripe.model.Customer;
+import technology.dice.paymenttester.stripe.model.CustomerDefinition;
+import technology.dice.paymenttester.stripe.model.StripeConfig;
+import technology.dice.paymenttester.stripe.service.StripePaymentProvider;
 
 import java.io.IOException;
 
