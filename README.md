@@ -15,6 +15,14 @@ Clone the project to your local running environment.
 
 Compile into a jar file and all you have to do is import it on your own project.
 
+# Pre-requisites
+
+For Paypal testing a number of preconditions need to exist. These are:
+* A paypal sandbox account already need to exist
+* Paypal Billing Agreement needs to be created and accepted beforehand.
+
+If those conditions are met, you are good to go to start using Dice Payment Tester.
+
 ## Running the tests
 
 To run the example tests for the library:
