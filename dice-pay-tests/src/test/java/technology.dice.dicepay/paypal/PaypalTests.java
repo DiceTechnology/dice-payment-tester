@@ -58,4 +58,13 @@ public class PaypalTests {
         assertEquals(paypalInitialPaymentResponse.getData().get(), paypalSecondPaymentResponse.getData().get());
 
     }
+
+    @Test
+    public void testCreateAuthorizationTokenSuccess() throws PaypalException {
+        final PaypalResponse<String> authorizationTokenResponse = this.paypalMerchantAccountWrapper.createAuthorizationToken();
+
+        assertThat(authorizationTokenResponse.getAckCodeType(), is(AckCodeType.SUCCESS));
+        assertTrue(authorizationTokenResponse.getErrorTypes().isEmpty());
+        assertTrue(authorizationTokenResponse.getData().isPresent());
+    }
 }
