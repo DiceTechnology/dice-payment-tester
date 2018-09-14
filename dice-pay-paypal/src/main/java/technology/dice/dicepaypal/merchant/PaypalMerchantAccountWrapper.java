@@ -1,8 +1,8 @@
 package technology.dice.dicepaypal.merchant;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import technology.dice.dicepaypal.api.PaypalAccountBalance;
 import technology.dice.dicepaypal.api.PaypalMoney;
 import technology.dice.dicepaypal.api.PaypalResponse;
 import technology.dice.dicepaypal.api.exception.PaypalException;
@@ -11,7 +11,6 @@ import technology.dice.dicepaypal.util.ModelMapperUtil;
 import urn.ebay.api.PayPalAPI.*;
 import urn.ebay.apis.CoreComponentTypes.BasicAmountType;
 import urn.ebay.apis.eBLBaseComponents.*;
-
 
 import java.util.Map;
 import java.util.Optional;
@@ -117,6 +116,42 @@ public class PaypalMerchantAccountWrapper {
         } catch (Exception e) {
             throw new PaypalException("Error creating billing agreement", e);
         }
+    }
+
+    public PaypalResponse<PaypalAccountBalance> getAccountBalance(boolean allCurrencies) throws PaypalException {
+        final GetBalanceRequestType requestType = new GetBalanceRequestType();
+        requestType.setReturnAllCurrencies(ModelMapperUtil.fromBoolean(allCurrencies));
+
+        final GetBalanceReq getBalanceReq = new GetBalanceReq();
+        getBalanceReq.setGetBalanceRequest(requestType);
+
+        try {
+            final GetBalanceResponseType response = createApiService().getBalance(getBalanceReq);
+            return new PaypalResponse<>(response.getAck(),
+                    ModelMapperUtil.convert(response.getBalance(), response.getBalanceHoldings()), response.getErrors());
+        } catch (Exception e) {
+            throw new PaypalException("Error getting balance", e);
+        }
+    }
+
+    public PaypalResponse<Void> changeBillingAgreementStatus(final String billingAgreement, final MerchantPullStatusCodeType statusCodeType) throws PaypalException {
+        // Request type
+        final BAUpdateRequestType requestType = new BAUpdateRequestType();
+
+        // Request specification
+        requestType.setReferenceID(billingAgreement);
+        requestType.setBillingAgreementStatus(statusCodeType);
+
+        final BillAgreementUpdateReq billAgreementUpdateReq = new BillAgreementUpdateReq();
+        billAgreementUpdateReq.setBAUpdateRequest(requestType);
+
+        try {
+            final BAUpdateResponseType response = createApiService().billAgreementUpdate(billAgreementUpdateReq);
+            return new PaypalResponse<>(response.getAck(), response.getErrors());
+        } catch (Exception e) {
+            throw new PaypalException("Error changing billing agreement status", e);
+        }
+
     }
 
     private PayPalAPIInterfaceServiceService createApiService() {

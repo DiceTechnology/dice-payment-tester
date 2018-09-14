@@ -15,7 +15,7 @@ public class PaypalResponse<T> {
     private final List<ErrorType> errorTypes;
 
     public PaypalResponse(AckCodeType ackCodeType, @Nullable T data, List<ErrorType> errorTypes) {
-        this.data = Optional.of(data);
+        this.data = Optional.ofNullable(data);
         this.ackCodeType = ackCodeType;
         this.errorTypes = errorTypes;
     }
