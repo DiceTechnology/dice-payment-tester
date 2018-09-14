@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import technology.dice.payment.stripe.model.Customer;
@@ -14,6 +16,8 @@ import technology.dice.payment.stripe.service.StripePaymentProvider;
 
 import java.io.IOException;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static technology.dice.dicepay.stripe.util.ConfigUtil.readConfig;
 
 
@@ -48,11 +52,9 @@ public class CustomerApiLayerTest {
 
         Customer customer = stripePaymentProvider.createCustomer(customerDefinition);
 
-        System.out.println(customer.getCustomerId());
-        System.out.println(customer.getEmail());
-        System.out.println(customer.getDescription());
-        System.out.println(customer.getMetaData());
-
+        assertThat(customerDefinition.getCustomerId(), is(customer.getCustomerId()));
+        assertThat(customerDefinition.getEmail(), is(customer.getEmail()));
+        assertThat(customerDefinition.getDescription(), is(customer.getDescription()));
     }
 }
 
