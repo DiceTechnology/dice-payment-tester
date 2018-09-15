@@ -1,13 +1,13 @@
-package technology.dice.dicepaypal.merchant;
+package technology.dice.paymenttester.merchant;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import technology.dice.dicepaypal.api.PaypalAccountBalance;
-import technology.dice.dicepaypal.api.PaypalMoney;
-import technology.dice.dicepaypal.api.PaypalResponse;
-import technology.dice.dicepaypal.api.exception.PaypalException;
-import technology.dice.dicepaypal.config.PaypalAccountConfig;
-import technology.dice.dicepaypal.util.ModelMapperUtil;
+import technology.dice.paymenttester.api.PaypalAccountBalance;
+import technology.dice.paymenttester.api.PaypalMoney;
+import technology.dice.paymenttester.api.PaypalResponse;
+import technology.dice.paymenttester.api.exception.PaypalException;
+import technology.dice.paymenttester.config.PaypalAccountConfig;
+import technology.dice.paymenttester.util.ModelMapperUtil;
 import urn.ebay.api.PayPalAPI.*;
 import urn.ebay.apis.CoreComponentTypes.BasicAmountType;
 import urn.ebay.apis.eBLBaseComponents.*;

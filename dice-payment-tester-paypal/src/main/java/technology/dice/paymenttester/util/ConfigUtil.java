@@ -1,6 +1,6 @@
-package technology.dice.dicepaypal.util;
+package technology.dice.paymenttester.util;
 
-import technology.dice.dicepaypal.config.PaypalAccountConfig;
+import technology.dice.paymenttester.config.PaypalAccountConfig;
 
 import java.io.IOException;
 import java.util.Optional;

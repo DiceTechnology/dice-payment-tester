@@ -1,4 +1,4 @@
-package technology.dice.dicepaypal.api;
+package technology.dice.paymenttester.api;
 
 import com.google.common.collect.ImmutableList;
 import urn.ebay.apis.eBLBaseComponents.AckCodeType;

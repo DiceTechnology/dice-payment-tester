@@ -1,4 +1,4 @@
-package technology.dice.dicepaypal.api.exception;
+package technology.dice.paymenttester.api.exception;
 
 public class PaypalException extends Exception {
 

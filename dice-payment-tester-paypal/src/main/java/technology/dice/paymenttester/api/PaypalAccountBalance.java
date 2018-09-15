@@ -1,4 +1,4 @@
-package technology.dice.dicepaypal.api;
+package technology.dice.paymenttester.api;
 
 import com.google.common.collect.ImmutableMap;
 import urn.ebay.apis.eBLBaseComponents.CurrencyCodeType;

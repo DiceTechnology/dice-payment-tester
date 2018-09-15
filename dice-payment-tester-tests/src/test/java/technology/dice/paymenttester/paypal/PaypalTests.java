@@ -3,12 +3,12 @@ package technology.dice.paymenttester.paypal;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import technology.dice.dicepaypal.api.PaypalMoney;
-import technology.dice.dicepaypal.api.PaypalResponse;
-import technology.dice.dicepaypal.api.exception.PaypalException;
-import technology.dice.dicepaypal.config.PaypalAccountConfig;
-import technology.dice.dicepaypal.merchant.PaypalMerchantAccountWrapper;
-import technology.dice.dicepaypal.util.ConfigUtil;
+import technology.dice.paymenttester.api.PaypalMoney;
+import technology.dice.paymenttester.api.PaypalResponse;
+import technology.dice.paymenttester.api.exception.PaypalException;
+import technology.dice.paymenttester.config.PaypalAccountConfig;
+import technology.dice.paymenttester.merchant.PaypalMerchantAccountWrapper;
+import technology.dice.paymenttester.util.ConfigUtil;
 import urn.ebay.apis.eBLBaseComponents.AckCodeType;
 import urn.ebay.apis.eBLBaseComponents.CurrencyCodeType;
 

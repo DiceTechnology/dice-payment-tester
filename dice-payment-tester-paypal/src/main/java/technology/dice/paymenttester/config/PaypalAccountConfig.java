@@ -1,4 +1,4 @@
-package technology.dice.dicepaypal.config;
+package technology.dice.paymenttester.config;
 
 import java.util.Optional;
 

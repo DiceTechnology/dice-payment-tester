@@ -1,4 +1,4 @@
-package technology.dice.dicepaypal.api;
+package technology.dice.paymenttester.api;
 
 import urn.ebay.apis.CoreComponentTypes.BasicAmountType;
 import urn.ebay.apis.eBLBaseComponents.CurrencyCodeType;

@@ -1,8 +1,8 @@
-package technology.dice.dicepaypal.util;
+package technology.dice.paymenttester.util;
 
 import com.google.common.collect.ImmutableMap;
-import technology.dice.dicepaypal.api.PaypalAccountBalance;
-import technology.dice.dicepaypal.api.PaypalMoney;
+import technology.dice.paymenttester.api.PaypalAccountBalance;
+import technology.dice.paymenttester.api.PaypalMoney;
 import urn.ebay.apis.CoreComponentTypes.BasicAmountType;
 
 import java.util.List;
