@@ -1,18 +1,9 @@
 package technology.dice.paymenttester.stripe.model;
 
-public class StripeRefundId {
-    private final String id;
+public class StripeRefundId extends BaseId {
 
     public StripeRefundId(String id) {
-        this.id = id;
+        super(id);
     }
 
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return id;
-    }
 }

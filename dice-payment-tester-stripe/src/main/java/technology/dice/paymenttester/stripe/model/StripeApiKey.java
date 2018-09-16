@@ -1,18 +1,8 @@
 package technology.dice.paymenttester.stripe.model;
 
-public class StripeApiKey {
-    private final String key;
+public class StripeApiKey extends BaseKey {
 
     public StripeApiKey(String key) {
-        this.key = key;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    @Override
-    public String toString() {
-        return key;
+        super(key);
     }
 }

@@ -4,10 +4,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Plan;
+import com.stripe.model.Subscription;
 import com.stripe.net.RequestOptions;
-import technology.dice.paymenttester.stripe.model.*;
 import technology.dice.paymenttester.stripe.exception.DiceStripeException;
-import technology.dice.paymenttester.stripe.model.StripeCustomerId;
+import technology.dice.paymenttester.stripe.exception.LicenceAlreadyCancelledException;
+import technology.dice.paymenttester.stripe.model.*;
 import technology.dice.paymenttester.stripe.util.ModelConvertor;
 
 import javax.inject.Singleton;
@@ -23,12 +24,6 @@ public class SubscriptionApiLayer {
 
     public StripeSubscriptionId paySubscription(RequestOptions options, StripeCustomerId stripeCustomerId, SubscriptionDefinition subscriptionDefinition, String idempotentKey) throws DiceStripeException {
         try {
-            // create subscription plans
-//            ImmutableMap.Builder<String, Object> planParams = ImmutableMap.builder();
-//
-//            planParams.put("customer", stripeCustomerId.getId());
-//            planParams.put("currency", subscriptionDefinition.getCurrency());
-
             PlanDefinition mainPlanDefinition = subscriptionDefinition.getPlanDefinition();
             Map<String, Object> planParams = buildPlanParams(mainPlanDefinition, mainPlanDefinition.getPrice().getAmount(), mainPlanDefinition.getPrice().getCurrency());
             Plan skuPlan = Plan.create(planParams, options);
@@ -52,7 +47,7 @@ public class SubscriptionApiLayer {
             }
 
             RequestOptions payOptions = buildPayRequestOptions(options, idempotentKey);
-            return ModelConvertor.convert(com.stripe.model.Subscription.create(payParams.build(), payOptions));
+            return ModelConvertor.convert(Subscription.create(payParams.build(), payOptions));
         } catch (StripeException e) {
             throw new DiceStripeException(String.format("error creating order : customer='%s'", stripeCustomerId), e);
         }
@@ -111,21 +106,35 @@ public class SubscriptionApiLayer {
         }
     }
 
-    private static Period toStripeSubscriptionPeriod(String stripePlanInterval) {
-        switch (stripePlanInterval) {
-            case "year":
-                return Period.ofYears(1);
-            case "month":
-                return Period.ofMonths(1);
-            case "week":
-                return Period.ofWeeks(1);
-            case "day":
-                return Period.ofDays(1);
-            default:
-                throw new DiceStripeException("invalid stripe plan interval");
+    public boolean cancelSubscription(RequestOptions options, StripeSubscriptionId stripeSubscriptionId, boolean cancelAtPeriodEnd) throws LicenceAlreadyCancelledException {
+        try {
+            Subscription subscriptionInQuestion = Subscription.retrieve(stripeSubscriptionId.getId(), options);
+
+            if (subscriptionInQuestion.getCanceledAt() != null) {
+                throw new LicenceAlreadyCancelledException(null);
+            }
+
+            subscriptionInQuestion.cancel(ImmutableMap.of("at_period_end", cancelAtPeriodEnd), options);
+            return true;
+        } catch (StripeException e) {
+            // ideally, if subscription has already been cancelled (e.g. externally), then this is not an error to re-cancel it (being idempotent)
+            // however, Stripe considers cancelling such an cancelled subscription to be InvalidRequestException -- "No such subscription"
+            // in other words, Stripe doesn't really distinguish if this is an invalid subscription or an cancelled one
+            throw new DiceStripeException(String.format("error cancelling subscription '%s'", stripeSubscriptionId.getId()), e);
         }
     }
 
+    public void endTrial(RequestOptions options, StripeSubscriptionId stripeSubscriptionId) {
+        try {
+            Subscription subscriptionInQuestion = Subscription.retrieve(stripeSubscriptionId.getId(), options);
+
+            if (subscriptionInQuestion != null) {
+                subscriptionInQuestion.update(ImmutableMap.of("trial_end", "now"), options);
+            }
+        } catch (StripeException e) {
+            throw new DiceStripeException("error ending trial");
+        }
+    }
 
     private RequestOptions buildPayRequestOptions(RequestOptions options, String idempotentKey) {
         if (idempotentKey == null) {

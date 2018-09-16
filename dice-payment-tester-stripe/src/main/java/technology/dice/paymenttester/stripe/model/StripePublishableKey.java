@@ -1,18 +1,9 @@
 package technology.dice.paymenttester.stripe.model;
 
-public class StripePublishableKey {
-    private final String key;
+public class StripePublishableKey extends BaseKey {
 
     public StripePublishableKey(String key) {
-        this.key = key;
+        super(key);
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    @Override
-    public String toString() {
-        return key;
-    }
 }

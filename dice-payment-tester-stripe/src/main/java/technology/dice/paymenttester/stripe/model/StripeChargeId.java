@@ -1,18 +1,9 @@
 package technology.dice.paymenttester.stripe.model;
 
-public class StripeChargeId {
-    private final String id;
+public class StripeChargeId extends BaseId {
 
     public StripeChargeId(String id) {
-        this.id = id;
+        super(id);
     }
 
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return id;
-    }
 }

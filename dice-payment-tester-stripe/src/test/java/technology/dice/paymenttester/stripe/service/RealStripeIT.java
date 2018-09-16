@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static technology.dice.paymenttester.stripe.util.ConfigUtil.readConfig;
 import static technology.dice.paymenttester.stripe.util.PlanUtil.generatePlanId;
 import static technology.dice.paymenttester.stripe.util.PlanUtil.generatePlanName;
-import static technology.dice.paymenttester.stripe.util.ConfigUtil.readConfig;
 
 public class RealStripeIT {
     private static final Logger LOG = LoggerFactory.getLogger(RealStripeIT.class);
@@ -145,4 +145,59 @@ public class RealStripeIT {
         StripeSubscriptionId stripeSubscriptionId = stripePaymentProvider.paySubscription(stripeCustomerId, subscriptionDefinition, idempotentKey);
         LOG.info("stripeSubscriptionId => {}", stripeSubscriptionId);
     }
+
+    @Test
+    public void endSubscriptionTrialImmediately() {
+        String customerId = "harrison.tsun-771@img.com";
+
+        StripeCustomerId stripeCustomerId = new StripeCustomerId(customerId);
+        StripeCardToken stripeCardToken = new StripeCardToken("tok_visa");
+
+        PlanId planId = new PlanId(generatePlanId(stripeCustomerId));       // NB : this need to be unique
+        String planName = generatePlanName(planId.getId());
+        Currency currency = GBP;
+
+        ChargeablePrice price = new ChargeablePrice(12345, currency);
+        SubscriptionSetting subscriptionSetting = new SubscriptionSetting(SubscriptionType.DAILY, Period.ofDays(1), 1);
+        PlanDefinition planDefinition = new PlanDefinition(planId, planName, "test monthly", price, subscriptionSetting);
+        SubscriptionDefinition subscriptionDefinition = new SubscriptionDefinition(currency, "monthly pass", planDefinition);
+
+        String idempotentKey = UUID.randomUUID().toString();
+
+        stripePaymentProvider.bindCardToken(stripeCustomerId, stripeCardToken);
+
+        StripeSubscriptionId stripeSubscriptionId = stripePaymentProvider.paySubscription(stripeCustomerId, subscriptionDefinition, idempotentKey);
+        LOG.info("stripeSubscriptionId => {}", stripeSubscriptionId);
+
+        stripePaymentProvider.endTrial(stripeSubscriptionId);
+        LOG.info("subscription trial should end as soon as possible");
+    }
+
+    @Test
+    public void cancelSubscriptionImmediately() {
+        String customerId = "harrison.tsun-771@img.com";
+
+        StripeCustomerId stripeCustomerId = new StripeCustomerId(customerId);
+        StripeCardToken stripeCardToken = new StripeCardToken("tok_visa");
+
+        PlanId planId = new PlanId(generatePlanId(stripeCustomerId));       // NB : this need to be unique
+        String planName = generatePlanName(planId.getId());
+        Currency currency = GBP;
+
+        ChargeablePrice price = new ChargeablePrice(12345, currency);
+        SubscriptionSetting subscriptionSetting = new SubscriptionSetting(SubscriptionType.DAILY, Period.ofDays(1), 1);
+        PlanDefinition planDefinition = new PlanDefinition(planId, planName, "test monthly", price, subscriptionSetting);
+        SubscriptionDefinition subscriptionDefinition = new SubscriptionDefinition(currency, "monthly pass", planDefinition);
+
+        String idempotentKey = UUID.randomUUID().toString();
+
+        stripePaymentProvider.bindCardToken(stripeCustomerId, stripeCardToken);
+
+        StripeSubscriptionId stripeSubscriptionId = stripePaymentProvider.paySubscription(stripeCustomerId, subscriptionDefinition, idempotentKey);
+        LOG.info("stripeSubscriptionId => {}", stripeSubscriptionId);
+
+        stripePaymentProvider.cancelSubscription(stripeSubscriptionId, false);
+        LOG.info("subscription should be marked as cancelled; but I usually see webhook on subscription is deleted several mins later");
+    }
+
 }

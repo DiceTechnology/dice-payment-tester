@@ -1,18 +1,9 @@
 package technology.dice.paymenttester.stripe.model;
 
-public class PlanId {
-    private final String id;
+public class PlanId extends BaseId {
 
     public PlanId(String id) {
-        this.id = id;
+        super(id);
     }
 
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return id;
-    }
 }

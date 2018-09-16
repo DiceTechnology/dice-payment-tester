@@ -1,9 +1,8 @@
 package technology.dice.paymenttester.stripe.service;
 
 import com.stripe.net.RequestOptions;
-import technology.dice.paymenttester.stripe.model.StripeSubscriptionId;
-import technology.dice.paymenttester.stripe.model.SubscriptionDefinition;
 import technology.dice.paymenttester.stripe.exception.DiceStripeException;
+import technology.dice.paymenttester.stripe.exception.LicenceAlreadyCancelledException;
 import technology.dice.paymenttester.stripe.model.*;
 
 import javax.inject.Inject;
@@ -80,7 +79,13 @@ public class StripePaymentProvider {
         return subscriptionApiLayer.paySubscription(requestOptions, stripeCustomerId, subscriptionDefinition, idempotentKey);
     }
 
-    // cancel
+    public boolean cancelSubscription(StripeSubscriptionId stripeSubscriptionId, boolean cancelAtPeriodEnd) throws LicenceAlreadyCancelledException {
+        return subscriptionApiLayer.cancelSubscription(requestOptions, stripeSubscriptionId, cancelAtPeriodEnd);
+    }
+
+    public void endTrial(StripeSubscriptionId stripeSubscriptionId) {
+        subscriptionApiLayer.endTrial(requestOptions, stripeSubscriptionId);
+    }
 
     public StripeRefundId refund(StripeCustomerId stripeCustomerId,
                                  StripeChargeId stripeChargeId,
