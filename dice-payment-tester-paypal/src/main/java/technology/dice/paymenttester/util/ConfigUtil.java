@@ -1,6 +1,14 @@
-package technology.dice.dicepaypal.util;
+/*
+ *
+ *  * Copyright (C) 2018 - present by Dice Technology Ltd.
+ *  *
+ *  * Please see distribution for license.
+ *
+ */
 
-import technology.dice.dicepaypal.config.PaypalAccountConfig;
+package technology.dice.paymenttester.util;
+
+import technology.dice.paymenttester.config.PaypalAccountConfig;
 
 import java.io.IOException;
 import java.util.Optional;

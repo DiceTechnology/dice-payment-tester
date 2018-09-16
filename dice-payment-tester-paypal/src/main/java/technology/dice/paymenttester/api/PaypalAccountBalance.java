@@ -1,4 +1,12 @@
-package technology.dice.dicepaypal.api;
+/*
+ *
+ *  * Copyright (C) 2018 - present by Dice Technology Ltd.
+ *  *
+ *  * Please see distribution for license.
+ *
+ */
+
+package technology.dice.paymenttester.api;
 
 import com.google.common.collect.ImmutableMap;
 import urn.ebay.apis.eBLBaseComponents.CurrencyCodeType;
