@@ -35,10 +35,6 @@ public class ModelConvertor {
         return new StripeCardToken(stripeCardToken.getId());
     }
 
-    private static boolean isTrue(Boolean b) {
-        return b != null && b.booleanValue();
-    }
-
     public static Product convert(com.stripe.model.Product stripeProduct) {
         return new Product(new ProductId(stripeProduct.getId()));
     }
@@ -67,5 +63,9 @@ public class ModelConvertor {
 
     public static StripeSubscriptionId convert(com.stripe.model.Subscription stripeSubscription) {
         return new StripeSubscriptionId(stripeSubscription.getId());
+    }
+
+    private static boolean isTrue(Boolean val) {
+        return val != null && val.booleanValue();
     }
 }

@@ -3,7 +3,7 @@ package technology.dice.paymenttester.stripe.model;
 import java.util.Objects;
 
 public abstract class BaseKey {
-    final private String key;
+    private final String key;
 
     public BaseKey(String key) {
         this.key = key;
@@ -14,16 +14,16 @@ public abstract class BaseKey {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        BaseKey that = (BaseKey) o;
+        BaseKey that = (BaseKey) obj;
 
         return Objects.equals(getKey(), that.getKey());
     }

@@ -3,7 +3,7 @@ package technology.dice.paymenttester.stripe.model;
 import java.util.Objects;
 
 public abstract class BaseId {
-    final private String id;
+    private final String id;
 
     public BaseId(String id) {
         this.id = id;
@@ -14,16 +14,16 @@ public abstract class BaseId {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        BaseId that = (BaseId) o;
+        BaseId that = (BaseId) obj;
 
         return Objects.equals(getId(), that.getId());
     }
